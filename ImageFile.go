@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"image"
 	"os"
 
+	"gioui.org/op/paint"
 	"github.com/qeesung/image2ascii/convert"
 
 	_ "image/gif"
@@ -60,4 +62,77 @@ func (i *ImageFile) asAscii() (string, error) {
 	})
 
 	return s, nil
+}
+
+type ImageFiles struct {
+	files        []*ImageFile
+	currentFile  *ImageFile
+	currentIndex int
+}
+
+func (f *ImageFiles) CurrentFile() *ImageFile {
+	return f.currentFile
+}
+
+func (f *ImageFiles) addFiles(files []string) {
+	for _, v := range files {
+		f.files = append(f.files, &ImageFile{
+			path: v,
+		})
+	}
+}
+
+func (f *ImageFiles) next() error {
+	startIndex := f.currentIndex
+	for {
+		if f.currentIndex < len(f.files)-1 {
+			f.currentIndex++
+		} else {
+			f.currentIndex = 0
+		}
+		// Couldn't find anything...
+		if startIndex == f.currentIndex {
+			return fmt.Errorf("no valid images found")
+		}
+		if args.Cache == false {
+			f.files[f.currentIndex].unload()
+		}
+		if f.files[f.currentIndex].image == nil {
+			f.files[f.currentIndex].load()
+		}
+		if f.files[f.currentIndex].invalid != nil {
+			continue
+		} else {
+			f.currentFile = f.files[f.currentIndex]
+			return nil
+		}
+	}
+}
+
+func (f *ImageFiles) prev() error {
+	startIndex := f.currentIndex
+	for {
+		if f.currentIndex > 0 {
+			f.currentIndex--
+		} else {
+			f.currentIndex = len(f.files) - 1
+		}
+		// Couldn't find anything...
+		if startIndex == f.currentIndex {
+			return fmt.Errorf("no valid images found")
+		}
+		if args.Cache == false {
+			f.files[f.currentIndex].unload()
+		}
+		if f.files[f.currentIndex].image == nil {
+			f.files[f.currentIndex].load()
+		}
+		if f.files[f.currentIndex].invalid != nil {
+			continue
+		} else {
+			f.currentFile = f.files[f.currentIndex]
+			imgOp = paint.ImageOp{}
+			return nil
+		}
+	}
 }

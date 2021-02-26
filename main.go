@@ -35,6 +35,7 @@ var (
 	}
 	images            []ImageFile
 	imgOp             paint.ImageOp
+	files             ImageFiles
 	currentImageIndex int
 	refreshImage      bool
 	// scaler ??? // draw.NearestNeighbor, draw.ApproxBiLinear, draw.BiLinear, draw.CatmullRom
@@ -43,11 +44,7 @@ var (
 func main() {
 	arg.MustParse(&args)
 
-	for _, v := range args.Files {
-		images = append(images, ImageFile{
-			path: v,
-		})
-	}
+	files.addFiles(args.Files)
 
 	if args.Ascii {
 		for _, i := range images {
@@ -77,45 +74,11 @@ type (
 	C = layout.Context
 )
 
-func nextImage() (err error) {
-	if currentImageIndex < len(images)-1 {
-		currentImageIndex++
-	} else {
-		currentImageIndex = 0
-	}
-	if args.Cache == false {
-		images[currentImageIndex].unload()
-	}
-	if images[currentImageIndex].image == nil {
-		images[currentImageIndex].load()
-	}
-	if images[currentImageIndex].invalid == nil {
-		imgOp = paint.ImageOp{}
-	}
-	return
-}
-func prevImage() (err error) {
-	if currentImageIndex > 0 {
-		currentImageIndex--
-	} else {
-		currentImageIndex = len(images) - 1
-	}
-	if args.Cache == false {
-		images[currentImageIndex].unload()
-	}
-	if images[currentImageIndex].image == nil {
-		images[currentImageIndex].load()
-	}
-	if images[currentImageIndex].invalid == nil {
-		imgOp = paint.ImageOp{}
-	}
-	return
-}
-
 func loop(w *app.Window) (err error) {
 	th := material.NewTheme(gofont.Collection())
 	var ops op.Ops
-	images[currentImageIndex].load()
+	files.currentIndex = -1
+	files.next()
 	for {
 		e := <-w.Events()
 		switch e := e.(type) {
@@ -131,10 +94,18 @@ func loop(w *app.Window) (err error) {
 				case key.NameEscape, "Q":
 					os.Exit(0)
 				case key.NameLeftArrow, "H":
-					prevImage()
+					if files.prev() != nil {
+						// TODO: Error, no available files
+					} else {
+						imgOp = paint.ImageOp{}
+					}
 					w.Invalidate()
 				case key.NameRightArrow, "L":
-					nextImage()
+					if files.next() != nil {
+						// TODO: Error, no available files
+					} else {
+						imgOp = paint.ImageOp{}
+					}
 					w.Invalidate()
 				case "Z":
 					args.Fit = !args.Fit
@@ -156,9 +127,13 @@ func loop(w *app.Window) (err error) {
 func render(gtx C, th *material.Theme) D {
 	widgets := []layout.Widget{
 		func(gtx C) D {
+			if files.currentFile == nil || files.currentFile.image == nil {
+				return material.Caption(th, "no loadable images").Layout(gtx)
+			}
 			sz := gtx.Constraints.Min.X
 			if imgOp.Size().X == 0 {
-				currentImage := images[currentImageIndex].image
+				currentImage := files.currentFile.image
+
 				rect := currentImage.Bounds()
 				if args.Fit {
 					// TODO
