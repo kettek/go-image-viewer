@@ -45,7 +45,7 @@ func (i *ImageFile) unload() {
 	i.format = ""
 }
 
-func (i *ImageFile) asAscii() (string, error) {
+func (i *ImageFile) asASCII() (string, error) {
 	if i.image == nil {
 		err := i.load()
 		if err != nil {

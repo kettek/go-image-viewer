@@ -25,7 +25,7 @@ var args struct {
 	Files []string `arg:"positional,required"`
 	Zoom  float32  `arg:"-z,--zoom" help:"Image zoom" default:"1.0"`
 	Fit   bool     `arg:"-f,--fit" help:"Fit images to window size" default:"false"`
-	Ascii bool     `arg:"-a,--ascii" help:"Render files to ASCII" default:"false"`
+	ASCII bool     `arg:"-a,--ascii" help:"Render files to ASCII" default:"false"`
 	Cache bool     `arg:"-c,--cache" help:"Whether image data should remain cached" default:"true"`
 }
 
@@ -46,9 +46,9 @@ func main() {
 
 	files.addFiles(args.Files)
 
-	if args.Ascii {
+	if args.ASCII {
 		for _, i := range images {
-			s, err := i.asAscii()
+			s, err := i.asASCII()
 			if err != nil {
 				fmt.Errorf("couldn't open file %s: %w)", s, err)
 			} else {
