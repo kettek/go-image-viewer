@@ -121,15 +121,15 @@ func loop(w *app.Window) (err error) {
 		case key.Event:
 			if e.State == key.Press {
 				switch e.Name {
-				case key.NameEscape:
+				case key.NameEscape, "Q":
 					os.Exit(0)
-				case key.NameLeftArrow:
+				case key.NameLeftArrow, "H":
 					prevImage()
 					w.Invalidate()
-				case key.NameRightArrow:
+				case key.NameRightArrow, "L":
 					nextImage()
 					w.Invalidate()
-				case "z":
+				case "Z":
 					args.Fit = !args.Fit
 					imgOp = paint.ImageOp{}
 				case "-":
