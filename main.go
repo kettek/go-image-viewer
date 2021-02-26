@@ -62,7 +62,7 @@ func main() {
 	}
 
 	go func() {
-		w := app.NewWindow()
+		w := app.NewWindow(app.Title("go-image-viewer"))
 		if err := loop(w); err != nil {
 			log.Fatal(err)
 		}
