@@ -112,11 +112,11 @@ func loop(w *app.Window) (err error) {
 					imgOp = paint.ImageOp{}
 				case "-":
 					if args.Zoom > 1 {
-						args.Zoom -= 1
+						args.Zoom--
 					}
 					imgOp = paint.ImageOp{}
 				case "+":
-					args.Zoom += 1
+					args.Zoom++
 					imgOp = paint.ImageOp{}
 				}
 			}
