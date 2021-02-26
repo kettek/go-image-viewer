@@ -14,6 +14,10 @@ github.com/kettek/apng v0.0.0-20191108220231-414630eed80f h1:dnCYnTSltLuPMfc7dMr
 github.com/kettek/apng v0.0.0-20191108220231-414630eed80f/go.mod h1:x78/VRQYKuCftMWS0uK5e+F5RJ7S4gSlESRWI0Prl6Q=
 github.com/kettek/xbm v0.0.0-20210225150555-116612c0db77 h1:vU5zXJg/B4yc1Z+MCHUjx8YcE+3Eikjg7thNeaO/Gi0=
 github.com/kettek/xbm v0.0.0-20210225150555-116612c0db77/go.mod h1:nOIAQGZQG5VD1jyNgS1+p6YzKDnUQdVq2gDXAyi5MEw=
+github.com/kettek/xbm v0.0.0-20210226035534-2e7e31a1f222 h1:E1Phm7pkBJ2KelsZPBNMG8EVJg3jUyxJvRpQT08QcfM=
+github.com/kettek/xbm v0.0.0-20210226035534-2e7e31a1f222/go.mod h1:nOIAQGZQG5VD1jyNgS1+p6YzKDnUQdVq2gDXAyi5MEw=
+github.com/kettek/xbm v0.0.0-20210226040101-9e8df4b913c7 h1:oUAu/2RkhZWgZr1YhMVgRuNpgrbE3cuhP598KaKUK98=
+github.com/kettek/xbm v0.0.0-20210226040101-9e8df4b913c7/go.mod h1:nOIAQGZQG5VD1jyNgS1+p6YzKDnUQdVq2gDXAyi5MEw=
 github.com/mattn/go-isatty v0.0.12 h1:wuysRhFDzyxgEmMf5xjvJ2M9dZoWAXNNr5LSBS7uHXY=
 github.com/mattn/go-isatty v0.0.12/go.mod h1:cbi8OIDigv2wuxKPP5vlRcQ1OAZbq2CE4Kysco4FUpU=
 github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 h1:zYyBkD/k9seD2A7fsi6Oo2LfFZAehjjQMERAvZLEDnQ=
