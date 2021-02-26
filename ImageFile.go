@@ -6,11 +6,12 @@ import (
 
 	"github.com/qeesung/image2ascii/convert"
 
-	_ "github.com/kettek/apng"
-	_ "github.com/kettek/xbm"
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
+
+	_ "github.com/kettek/apng"
+	_ "github.com/kettek/xbm"
 )
 
 type ImageFile struct {
@@ -34,6 +35,12 @@ func (i *ImageFile) load() error {
 	i.image = m
 	i.format = format
 	return nil
+}
+
+func (i *ImageFile) unload() {
+	i.invalid = nil
+	i.image = nil
+	i.format = ""
 }
 
 func (i *ImageFile) asAscii() (string, error) {
