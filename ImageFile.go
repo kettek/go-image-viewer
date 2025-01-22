@@ -90,10 +90,18 @@ func (f *ImageFiles) addFiles(files []string) {
 				fmt.Println(err)
 				continue
 			}
-			for _, entry := range entries {
-				f.files = append(f.files, &ImageFile{
-					path: filepath.Join(v, entry.Name()),
-				})
+			if args.Recursive {
+				var subFiles []string
+				for _, entry := range entries {
+					subFiles = append(subFiles, filepath.Join(v, entry.Name()))
+				}
+				f.addFiles(subFiles)
+			} else {
+				for _, entry := range entries {
+					f.files = append(f.files, &ImageFile{
+						path: filepath.Join(v, entry.Name()),
+					})
+				}
 			}
 		} else {
 			f.files = append(f.files, &ImageFile{

@@ -22,11 +22,12 @@ import (
 )
 
 var args struct {
-	Files []string `arg:"positional,required"`
-	Zoom  float32  `arg:"-z,--zoom" help:"Image zoom" default:"1.0"`
-	Fit   bool     `arg:"-f,--fit" help:"Fit images to window size" default:"false"`
-	ASCII bool     `arg:"-a,--ascii" help:"Render files to ASCII" default:"false"`
-	Cache bool     `arg:"-c,--cache" help:"Whether image data should remain cached" default:"true"`
+	Files     []string `arg:"positional,required"`
+	Zoom      float32  `arg:"-z,--zoom" help:"Image zoom" default:"1.0"`
+	Fit       bool     `arg:"-f,--fit" help:"Fit images to window size" default:"false"`
+	ASCII     bool     `arg:"-a,--ascii" help:"Render files to ASCII" default:"false"`
+	Cache     bool     `arg:"-c,--cache" help:"Whether image data should remain cached" default:"true"`
+	Recursive bool     `arg:"-r,--recursive" help:"Recursively search directories" default:"false"`
 }
 
 var (
