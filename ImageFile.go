@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"image"
 	"os"
+	"path/filepath"
 
 	"gioui.org/op/paint"
 	"github.com/qeesung/image2ascii/convert"
@@ -76,9 +77,29 @@ func (f *ImageFiles) CurrentFile() *ImageFile {
 
 func (f *ImageFiles) addFiles(files []string) {
 	for _, v := range files {
-		f.files = append(f.files, &ImageFile{
-			path: v,
-		})
+
+		// Check if file is a dir, and if so, add all the files within.
+		fi, err := os.Stat(v)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+		if fi.Mode().IsDir() {
+			entries, err := os.ReadDir(v)
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+			for _, entry := range entries {
+				f.files = append(f.files, &ImageFile{
+					path: filepath.Join(v, entry.Name()),
+				})
+			}
+		} else {
+			f.files = append(f.files, &ImageFile{
+				path: v,
+			})
+		}
 	}
 }
 
