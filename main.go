@@ -51,7 +51,7 @@ func main() {
 		for _, i := range images {
 			s, err := i.asASCII()
 			if err != nil {
-				fmt.Errorf("couldn't open file %s: %w)", s, err)
+				fmt.Println("couldn't open file %s: %w)", i.path, err)
 			} else {
 				fmt.Printf("%s (%s)\n", i.path, i.format)
 				fmt.Printf("%s", s)
