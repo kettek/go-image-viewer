@@ -15,6 +15,7 @@ import (
 
 	_ "github.com/kettek/apng"
 	_ "github.com/kettek/xbm"
+	_ "github.com/kettek/xpm"
 )
 
 type ImageFile struct {
